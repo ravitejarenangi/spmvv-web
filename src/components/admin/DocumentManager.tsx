@@ -193,7 +193,14 @@ export function DocumentManager({ initialDocuments }: DocumentManagerProps) {
         <form onSubmit={handleUpload} className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-1.5">
             <Label htmlFor="file">PDF File</Label>
-            <Input id="file" type="file" accept=".pdf" ref={fileRef} required />
+            <input
+              id="file"
+              type="file"
+              accept=".pdf"
+              ref={fileRef}
+              required
+              className="h-11 w-full rounded-lg border border-input bg-transparent px-2.5 py-2 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-primary file:px-3 file:py-1 file:text-sm file:font-medium file:text-primary-foreground hover:file:bg-primary/90 cursor-pointer"
+            />
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="category">Category</Label>
