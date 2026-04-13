@@ -5,7 +5,7 @@ import { updateSettings } from "@/lib/settings";
 
 export async function GET(req: NextRequest) {
   try {
-    await requirePermission("admin:settings:read");
+    await requirePermission("admin:settings");
 
     const { searchParams } = new URL(req.url);
     const category = searchParams.get("category") ?? "";
@@ -34,7 +34,7 @@ export async function GET(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
   try {
-    await requirePermission("admin:settings:write");
+    await requirePermission("admin:settings");
 
     const body = await req.json();
     const updates: { key: string; value: unknown }[] = body.updates ?? [];

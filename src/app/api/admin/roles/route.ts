@@ -4,7 +4,7 @@ import { requirePermission } from "@/lib/permissions";
 
 export async function GET(req: NextRequest) {
   try {
-    await requirePermission("admin:roles:read");
+    await requirePermission("admin:roles");
 
     const roles = await prisma.role.findMany({
       include: {
@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    await requirePermission("admin:roles:write");
+    await requirePermission("admin:roles");
 
     const { name, description, permissions } = await req.json();
 
@@ -66,7 +66,7 @@ export async function POST(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
   try {
-    await requirePermission("admin:roles:write");
+    await requirePermission("admin:roles");
 
     const { id, permissions } = await req.json();
 

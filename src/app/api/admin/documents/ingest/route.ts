@@ -4,7 +4,7 @@ import { ingestDocument, ingestAllDocuments } from "@/lib/ingest";
 
 export async function POST(req: NextRequest) {
   try {
-    await requirePermission("admin:documents:write");
+    await requirePermission("admin:documents");
 
     const body = await req.json().catch(() => ({}));
     const { documentId } = body;

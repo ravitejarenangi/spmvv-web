@@ -6,7 +6,7 @@ import * as path from "path";
 
 export async function GET(req: NextRequest) {
   try {
-    await requirePermission("admin:documents:read");
+    await requirePermission("admin:documents");
 
     const documents = await prisma.document.findMany({
       include: {
@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await requirePermission("admin:documents:write");
+    const session = await requirePermission("admin:documents");
 
     const formData = await req.formData();
     const file = formData.get("file") as File | null;
@@ -97,7 +97,7 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    await requirePermission("admin:documents:delete");
+    await requirePermission("admin:documents");
 
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
