@@ -60,15 +60,16 @@ export async function POST(req: NextRequest) {
     const timestamp = Date.now();
     const safeFilename = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
     const filename = `${timestamp}_${safeFilename}`;
-    const filepath = path.join(uploadsDir, filename);
+    const fullPath = path.join(uploadsDir, filename);
+    const relativePath = path.join("uploads", subfolder, filename);
 
     const arrayBuffer = await file.arrayBuffer();
-    fs.writeFileSync(filepath, Buffer.from(arrayBuffer));
+    fs.writeFileSync(fullPath, Buffer.from(arrayBuffer));
 
     const document = await prisma.document.create({
       data: {
         filename: file.name,
-        filepath,
+        filepath: relativePath,
         category,
         subject: subject ?? null,
         code: code ?? null,

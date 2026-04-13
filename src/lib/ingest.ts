@@ -43,8 +43,11 @@ export async function ingestDocument(documentId: string): Promise<number> {
   // Delete existing chunks
   await prisma.documentChunk.deleteMany({ where: { documentId } });
 
-  // Read and parse PDF
-  const fileBuffer = fs.readFileSync(doc.filepath);
+  // Read and parse PDF — filepath may be absolute or relative to cwd
+  const resolvedPath = doc.filepath.startsWith("/")
+    ? doc.filepath
+    : require("path").join(process.cwd(), doc.filepath);
+  const fileBuffer = fs.readFileSync(resolvedPath);
   const parser = new PDFParse({ data: fileBuffer });
   const textResult = await parser.getText();
 
