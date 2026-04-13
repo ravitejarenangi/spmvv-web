@@ -2,7 +2,9 @@ import { prisma } from "@/lib/db";
 import { getSetting } from "@/lib/settings";
 import { getEmbedding } from "@/lib/embeddings";
 import * as fs from "fs";
-import { PDFParse } from "pdf-parse";
+import * as path from "path";
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const pdfParse = require("pdf-parse");
 
 export function chunkText(
   text: string,
@@ -46,13 +48,12 @@ export async function ingestDocument(documentId: string): Promise<number> {
   // Read and parse PDF — filepath may be absolute or relative to cwd
   const resolvedPath = doc.filepath.startsWith("/")
     ? doc.filepath
-    : require("path").join(process.cwd(), doc.filepath);
+    : path.join(process.cwd(), doc.filepath);
   const fileBuffer = fs.readFileSync(resolvedPath);
-  const parser = new PDFParse({ data: fileBuffer });
-  const textResult = await parser.getText();
+  const pdfData = await pdfParse(fileBuffer);
 
   // Clean text
-  const cleanedText = textResult.text
+  const cleanedText = pdfData.text
     .replace(/\s+/g, " ")
     .replace(/[^\x20-\x7E\n]/g, "")
     .trim();
