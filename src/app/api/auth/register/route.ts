@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { hash } from "bcryptjs";
-import { db } from "@/lib/db";
+import { prisma } from "@/lib/db";
 import { getSetting } from "@/lib/settings";
 
 export async function POST(req: NextRequest) {
@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
 
     // Validate email domain against allowedDomains table
     const emailDomain = normalizedEmail.split("@")[1];
-    const allowedDomain = await db.allowedDomain.findFirst({
+    const allowedDomain = await prisma.allowedDomain.findFirst({
       where: { domain: emailDomain, isActive: true },
     });
 
@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Check for existing user
-    const existingUser = await db.user.findUnique({
+    const existingUser = await prisma.user.findUnique({
       where: { email: normalizedEmail },
     });
 
@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const dbRole = await db.role.findFirst({
+    const dbRole = await prisma.role.findFirst({
       where: { name: roleName },
     });
 
@@ -84,7 +84,7 @@ export async function POST(req: NextRequest) {
     const hashedPassword = await hash(password, 12);
 
     // Create user
-    await db.user.create({
+    await prisma.user.create({
       data: {
         name,
         email: normalizedEmail,

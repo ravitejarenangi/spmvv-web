@@ -1,7 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
-import { db } from "./db";
+import { prisma } from "./db";
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -23,7 +23,7 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        const user = await db.user.findUnique({
+        const user = await prisma.user.findUnique({
           where: { email: credentials.email.toLowerCase() },
           include: {
             role: {
@@ -66,7 +66,7 @@ export const authOptions: NextAuthOptions = {
         token.permissions = user.permissions;
       } else {
         // Subsequent requests — refresh permissions from DB
-        const rolePermissions = await db.rolePermission.findMany({
+        const rolePermissions = await prisma.rolePermission.findMany({
           where: {
             roleId: token.roleId,
             granted: true,
