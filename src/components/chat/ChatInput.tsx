@@ -44,7 +44,7 @@ export function ChatInput({ onSend, disabled }: ChatInputProps) {
   const isEmpty = value.trim().length === 0;
 
   return (
-    <div className="flex items-end gap-2 rounded-2xl border bg-white px-4 py-3 shadow-sm focus-within:ring-2 focus-within:ring-blue-500/30 focus-within:border-blue-400 transition-all">
+    <div className="flex items-end gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 focus-within:border-blue-400 focus-within:ring-2 focus-within:ring-blue-500/30 transition-all">
       <textarea
         ref={textareaRef}
         value={value}
@@ -53,15 +53,15 @@ export function ChatInput({ onSend, disabled }: ChatInputProps) {
         placeholder="Ask anything about SPMVV..."
         rows={1}
         disabled={disabled}
-        className="flex-1 resize-none bg-transparent text-sm outline-none placeholder:text-muted-foreground disabled:opacity-50 max-h-[200px] leading-6"
+        className="flex-1 resize-none bg-transparent text-sm outline-none placeholder:text-slate-400 disabled:opacity-50 max-h-[200px] leading-6 min-h-[44px] pt-2.5"
       />
       <button
         onClick={submit}
         disabled={isEmpty || disabled}
         className={cn(
-          "flex-shrink-0 rounded-xl p-2 transition-colors",
+          "flex-shrink-0 h-11 w-11 flex items-center justify-center rounded-xl transition-colors",
           isEmpty || disabled
-            ? "text-muted-foreground cursor-not-allowed"
+            ? "text-slate-400 cursor-not-allowed"
             : "bg-blue-600 text-white hover:bg-blue-700"
         )}
         title="Send message"

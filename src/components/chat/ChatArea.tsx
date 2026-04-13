@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { GraduationCap } from "lucide-react";
 import { MessageBubble } from "./MessageBubble";
 import { PdfCard } from "./PdfCard";
 import { ChatInput } from "./ChatInput";
@@ -183,28 +184,16 @@ export function ChatArea({ sessionId: initialSessionId, initialMessages }: ChatA
     <div className="flex flex-1 flex-col h-full overflow-hidden">
       {/* Messages area */}
       <div className="flex-1 overflow-y-auto px-4 py-6">
-        <div className="mx-auto max-w-2xl space-y-4">
+        <div className="mx-auto max-w-2xl space-y-6">
           {messages.length === 0 && !loading && (
             <div className="flex flex-col items-center justify-center py-16 text-center">
-              <div className="mb-4 rounded-full bg-blue-100 p-4">
-                <svg
-                  className="size-8 text-blue-600"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.5}
-                    d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-                  />
-                </svg>
+              <div className="mb-4 flex items-center justify-center rounded-full bg-slate-100 p-5">
+                <GraduationCap className="size-10 text-slate-300" />
               </div>
-              <h2 className="text-xl font-semibold text-foreground">
+              <h2 className="font-poppins text-xl font-semibold text-slate-700">
                 Welcome, {userName}!
               </h2>
-              <p className="mt-2 text-sm text-muted-foreground max-w-sm">
+              <p className="mt-2 max-w-sm text-sm text-slate-400">
                 Ask me anything about SPMVV. I can help with admissions, courses, faculty, schedules, and more.
               </p>
             </div>
@@ -227,8 +216,9 @@ export function ChatArea({ sessionId: initialSessionId, initialMessages }: ChatA
 
           {/* Streaming content */}
           {streamingContent && (
-            <div className="flex justify-start">
-              <div className="max-w-[75%] rounded-2xl rounded-tl-sm bg-gray-100 px-4 py-2.5 shadow-sm prose prose-sm max-w-none prose-p:my-1">
+            <div className="flex flex-col items-start gap-1">
+              <span className="text-xs text-slate-400">EDUBOT</span>
+              <div className="max-w-[75%] rounded-2xl rounded-bl-sm border border-slate-100 bg-white px-4 py-2.5 shadow-sm prose prose-sm max-w-none prose-p:my-1">
                 <p className="text-sm whitespace-pre-wrap">
                   {streamingContent}
                   <span className="inline-block animate-pulse text-blue-600">▊</span>
@@ -239,12 +229,13 @@ export function ChatArea({ sessionId: initialSessionId, initialMessages }: ChatA
 
           {/* Loading indicator (waiting for first token) */}
           {loading && !streamingContent && (
-            <div className="flex justify-start">
-              <div className="rounded-2xl rounded-tl-sm bg-gray-100 px-4 py-3 shadow-sm">
+            <div className="flex flex-col items-start gap-1">
+              <span className="text-xs text-slate-400">EDUBOT</span>
+              <div className="rounded-2xl rounded-bl-sm border border-slate-100 bg-white px-4 py-3 shadow-sm">
                 <div className="flex gap-1 items-center">
-                  <span className="size-2 rounded-full bg-gray-400 animate-bounce [animation-delay:-0.3s]" />
-                  <span className="size-2 rounded-full bg-gray-400 animate-bounce [animation-delay:-0.15s]" />
-                  <span className="size-2 rounded-full bg-gray-400 animate-bounce" />
+                  <span className="size-2 rounded-full bg-slate-300 animate-bounce [animation-delay:-0.3s]" />
+                  <span className="size-2 rounded-full bg-slate-300 animate-bounce [animation-delay:-0.15s]" />
+                  <span className="size-2 rounded-full bg-slate-300 animate-bounce" />
                 </div>
               </div>
             </div>
@@ -255,10 +246,10 @@ export function ChatArea({ sessionId: initialSessionId, initialMessages }: ChatA
       </div>
 
       {/* Input area */}
-      <div className="border-t bg-white px-4 py-4">
+      <div className="border-t border-slate-200 bg-white px-4 py-4">
         <div className="mx-auto max-w-2xl">
           <ChatInput onSend={handleSend} disabled={loading} />
-          <p className="mt-2 text-center text-xs text-muted-foreground">
+          <p className="mt-2 text-center text-xs text-slate-400">
             AI responses may be inaccurate. Verify important information.
           </p>
         </div>

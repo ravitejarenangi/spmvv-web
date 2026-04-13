@@ -4,12 +4,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Link from "next/link";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { GraduationCap } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -41,45 +36,64 @@ export function LoginForm() {
   }
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader>
-        <CardTitle className="text-2xl text-center">Sign In</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="you@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? "Signing in..." : "Sign In"}
-          </Button>
-        </form>
-        <p className="mt-4 text-center text-sm text-muted-foreground">
-          Don&apos;t have an account?{" "}
-          <Link href="/register" className="underline hover:text-foreground">
-            Register
-          </Link>
-        </p>
-      </CardContent>
-    </Card>
+    <div className="w-full max-w-md rounded-xl border-0 bg-white p-8 shadow-lg">
+      <div className="mb-6 flex flex-col items-center gap-2">
+        <div className="flex items-center justify-center rounded-full bg-blue-50 p-3">
+          <GraduationCap className="size-7 text-blue-600" />
+        </div>
+        <h1 className="font-poppins text-2xl font-semibold text-slate-800">
+          Welcome Back
+        </h1>
+        <p className="text-sm text-slate-500">Sign in to your account</p>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <div className="space-y-1.5">
+          <Label htmlFor="email" className="text-sm font-medium text-slate-700">
+            Email
+          </Label>
+          <Input
+            id="email"
+            type="email"
+            placeholder="you@example.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="h-11 rounded-lg border-slate-200 focus:border-blue-500 focus:ring-blue-500"
+          />
+        </div>
+        <div className="space-y-1.5">
+          <Label htmlFor="password" className="text-sm font-medium text-slate-700">
+            Password
+          </Label>
+          <Input
+            id="password"
+            type="password"
+            placeholder="••••••••"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className="h-11 rounded-lg border-slate-200 focus:border-blue-500 focus:ring-blue-500"
+          />
+        </div>
+        <Button
+          type="submit"
+          className="h-11 w-full rounded-lg bg-blue-600 font-medium transition-colors hover:bg-blue-700"
+          disabled={loading}
+        >
+          {loading ? "Signing in..." : "Sign In"}
+        </Button>
+      </form>
+
+      <p className="mt-6 text-center text-sm text-slate-500">
+        Don&apos;t have an account?{" "}
+        <Link
+          href="/register"
+          className="font-medium text-blue-600 hover:text-blue-700"
+        >
+          Register
+        </Link>
+      </p>
+    </div>
   );
 }
