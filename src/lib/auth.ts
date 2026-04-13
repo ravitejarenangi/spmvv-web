@@ -1,0 +1,88 @@
+import { NextAuthOptions } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { compare } from "bcryptjs";
+import { db } from "./db";
+
+export const authOptions: NextAuthOptions = {
+  session: {
+    strategy: "jwt",
+    maxAge: 24 * 60 * 60, // 24 hours
+  },
+  pages: {
+    signIn: "/login",
+  },
+  providers: [
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) {
+          return null;
+        }
+
+        const user = await db.user.findUnique({
+          where: { email: credentials.email.toLowerCase() },
+          include: {
+            role: {
+              include: {
+                permissions: {
+                  where: { granted: true },
+                },
+              },
+            },
+          },
+        });
+
+        if (!user || !user.isActive) {
+          return null;
+        }
+
+        const passwordValid = await compare(credentials.password, user.password);
+        if (!passwordValid) {
+          return null;
+        }
+
+        return {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role.name,
+          roleId: user.roleId,
+          permissions: [],
+        };
+      },
+    }),
+  ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        // Initial login — copy user fields to token
+        token.id = user.id;
+        token.role = user.role;
+        token.roleId = user.roleId;
+        token.permissions = user.permissions;
+      } else {
+        // Subsequent requests — refresh permissions from DB
+        const rolePermissions = await db.rolePermission.findMany({
+          where: {
+            roleId: token.roleId,
+            granted: true,
+          },
+          select: { permission: true },
+        });
+        token.permissions = rolePermissions.map((rp) => rp.permission);
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      session.user.id = token.id;
+      session.user.role = token.role;
+      session.user.roleId = token.roleId;
+      session.user.permissions = token.permissions;
+      return session;
+    },
+  },
+};
