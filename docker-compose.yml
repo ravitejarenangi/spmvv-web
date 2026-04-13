@@ -1,0 +1,54 @@
+version: "3.8"
+
+services:
+  nextjs:
+    build: ./
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      ollama:
+        condition: service_started
+      reranker:
+        condition: service_started
+    volumes:
+      - ./uploads:/app/uploads
+    environment:
+      - DATABASE_URL=postgresql://edubot:edubot_password@postgres:5432/spmvv_edubot
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET:-change-me-to-a-random-32-char-secret}
+      - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost:3000}
+      - RERANKER_URL=http://reranker:8000
+      - SUPERADMIN_EMAIL=${SUPERADMIN_EMAIL:-admin@gmail.com}
+      - SUPERADMIN_PASSWORD=${SUPERADMIN_PASSWORD:-change-me-to-a-strong-password}
+      - SUPERADMIN_NAME=${SUPERADMIN_NAME:-Super Admin}
+
+  reranker:
+    build: ./reranker
+    expose:
+      - "8000"
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=spmvv_edubot
+      - POSTGRES_USER=edubot
+      - POSTGRES_PASSWORD=edubot_password
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U edubot -d spmvv_edubot"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  ollama:
+    image: ollama/ollama
+    volumes:
+      - ollama_models:/root/.ollama
+    expose:
+      - "11434"
+
+volumes:
+  pgdata:
+  ollama_models:
