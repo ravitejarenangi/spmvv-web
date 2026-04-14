@@ -20,6 +20,12 @@ interface ChatAreaProps {
   initialMessages?: Message[];
 }
 
+const SUGGESTION_CHIPS = [
+  "What courses are offered?",
+  "Tell me about admissions",
+  "Show question papers",
+];
+
 export function ChatArea({ sessionId: initialSessionId, initialMessages }: ChatAreaProps) {
   const router = useRouter();
   const { data: session } = useSession();
@@ -181,21 +187,32 @@ export function ChatArea({ sessionId: initialSessionId, initialMessages }: ChatA
   const userName = session?.user?.name ?? "there";
 
   return (
-    <div className="flex flex-1 flex-col h-full overflow-hidden">
+    <div className="flex flex-1 flex-col h-full overflow-hidden bg-slate-50">
       {/* Messages area */}
-      <div className="flex-1 overflow-y-auto px-4 py-6">
-        <div className="mx-auto max-w-2xl space-y-6">
+      <div className="flex-1 overflow-y-auto scroll-smooth px-4 py-6">
+        <div className="mx-auto max-w-3xl space-y-6">
           {messages.length === 0 && !loading && (
-            <div className="flex flex-col items-center justify-center py-16 text-center">
-              <div className="mb-4 flex items-center justify-center rounded-full bg-slate-100 p-5">
-                <GraduationCap className="size-10 text-slate-300" />
+            <div className="flex flex-col items-center justify-center py-20 text-center">
+              <div className="mb-6 flex items-center justify-center rounded-full bg-blue-50 p-6 animate-[float_3s_ease-in-out_infinite]">
+                <GraduationCap className="size-16 text-blue-600" />
               </div>
-              <h2 className="font-poppins text-xl font-semibold text-slate-700">
+              <h2 className="font-poppins text-2xl font-bold text-slate-800">
                 Welcome, {userName}!
               </h2>
-              <p className="mt-2 max-w-sm text-sm text-slate-400">
-                Ask me anything about SPMVV. I can help with admissions, courses, faculty, schedules, and more.
+              <p className="mt-2 max-w-sm text-sm text-slate-500">
+                Ask me anything about SPMVV
               </p>
+              <div className="mt-6 flex flex-wrap justify-center gap-3">
+                {SUGGESTION_CHIPS.map((chip) => (
+                  <button
+                    key={chip}
+                    onClick={() => handleSend(chip)}
+                    className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-600 cursor-pointer hover:border-blue-300 hover:bg-blue-50 transition-all duration-200"
+                  >
+                    {chip}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
 
@@ -232,11 +249,11 @@ export function ChatArea({ sessionId: initialSessionId, initialMessages }: ChatA
             <div className="flex flex-col items-start gap-1">
               <span className="text-xs text-slate-400">EDUBOT</span>
               <div className="rounded-2xl rounded-bl-sm border border-slate-100 bg-white px-4 py-3 shadow-sm">
-                <div className="flex gap-1 items-center">
-                  <span className="size-2 rounded-full bg-slate-300 animate-bounce [animation-delay:-0.3s]" />
-                  <span className="size-2 rounded-full bg-slate-300 animate-bounce [animation-delay:-0.15s]" />
-                  <span className="size-2 rounded-full bg-slate-300 animate-bounce" />
-                </div>
+                <span className="inline-flex gap-1">
+                  <span className="h-2 w-2 rounded-full bg-blue-600 animate-bounce [animation-delay:0ms]" />
+                  <span className="h-2 w-2 rounded-full bg-blue-600 animate-bounce [animation-delay:150ms]" />
+                  <span className="h-2 w-2 rounded-full bg-blue-600 animate-bounce [animation-delay:300ms]" />
+                </span>
               </div>
             </div>
           )}
@@ -247,7 +264,7 @@ export function ChatArea({ sessionId: initialSessionId, initialMessages }: ChatA
 
       {/* Input area */}
       <div className="border-t border-slate-200 bg-white px-4 py-4">
-        <div className="mx-auto max-w-2xl">
+        <div className="mx-auto max-w-3xl">
           <ChatInput onSend={handleSend} disabled={loading} />
           <p className="mt-2 text-center text-xs text-slate-400">
             AI responses may be inaccurate. Verify important information.

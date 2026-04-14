@@ -16,7 +16,7 @@ export function ChatInput({ onSend, disabled }: ChatInputProps) {
     const el = textareaRef.current;
     if (!el) return;
     el.style.height = "auto";
-    el.style.height = `${Math.min(el.scrollHeight, 200)}px`;
+    el.style.height = `${Math.min(el.scrollHeight, 160)}px`;
   }, []);
 
   function handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -44,25 +44,28 @@ export function ChatInput({ onSend, disabled }: ChatInputProps) {
   const isEmpty = value.trim().length === 0;
 
   return (
-    <div className="flex items-end gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 focus-within:border-blue-400 focus-within:ring-2 focus-within:ring-blue-500/30 transition-all">
+    <div
+      className={cn(
+        "relative rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-200",
+        "focus-within:border-blue-400 focus-within:shadow-md focus-within:ring-4 focus-within:ring-blue-500/10"
+      )}
+    >
       <textarea
         ref={textareaRef}
         value={value}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
-        placeholder="Ask anything about SPMVV..."
+        placeholder="Ask about courses, fees, question papers..."
         rows={1}
         disabled={disabled}
-        className="flex-1 resize-none bg-transparent text-sm outline-none placeholder:text-slate-400 disabled:opacity-50 max-h-[200px] leading-6 min-h-[44px] pt-2.5"
+        className="w-full resize-none border-none bg-transparent px-4 py-3 pr-14 text-sm outline-none placeholder:text-slate-400 disabled:opacity-50 min-h-[48px] max-h-[160px] leading-6"
       />
       <button
         onClick={submit}
         disabled={isEmpty || disabled}
         className={cn(
-          "flex-shrink-0 h-11 w-11 flex items-center justify-center rounded-xl transition-colors",
-          isEmpty || disabled
-            ? "text-slate-400 cursor-not-allowed"
-            : "bg-blue-600 text-white hover:bg-blue-700"
+          "absolute bottom-2 right-2 flex h-9 w-9 items-center justify-center rounded-xl bg-blue-600 text-white transition-all duration-200 hover:bg-blue-700 active:scale-95",
+          isEmpty || disabled ? "scale-75 opacity-40 cursor-not-allowed" : "scale-100 opacity-100"
         )}
         title="Send message"
       >
