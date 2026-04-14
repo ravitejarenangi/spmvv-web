@@ -24,6 +24,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface Setting {
   id: string;
@@ -123,6 +130,39 @@ const KEY_LABELS: Record<string, string> = {
   max_upload_size_mb: "Max Upload Size (MB)",
 };
 
+// Settings that should render as dropdowns with predefined options
+const DROPDOWN_OPTIONS: Record<string, { value: string; label: string }[]> = {
+  generation_provider: [
+    { value: "ollama", label: "Ollama (Local)" },
+    { value: "zai", label: "Z.AI (Cloud)" },
+  ],
+  default_role: [
+    { value: "student", label: "Student" },
+    { value: "faculty", label: "Faculty" },
+  ],
+  zai_model: [
+    { value: "GLM-5", label: "GLM-5" },
+    { value: "GLM-5-Turbo", label: "GLM-5 Turbo" },
+    { value: "GLM-4.7", label: "GLM-4.7" },
+    { value: "GLM-4.6", label: "GLM-4.6" },
+    { value: "GLM-4.5", label: "GLM-4.5" },
+  ],
+  generation_model: [
+    { value: "mistral", label: "Mistral 7B" },
+    { value: "llama3", label: "Llama 3" },
+    { value: "llama3.1", label: "Llama 3.1" },
+    { value: "gemma2", label: "Gemma 2" },
+    { value: "phi3", label: "Phi-3" },
+    { value: "qwen2", label: "Qwen 2" },
+  ],
+  embedding_model: [
+    { value: "nomic-embed-text", label: "Nomic Embed Text" },
+    { value: "mxbai-embed-large", label: "MxBai Embed Large" },
+    { value: "all-minilm", label: "All-MiniLM" },
+    { value: "snowflake-arctic-embed", label: "Snowflake Arctic Embed" },
+  ],
+};
+
 function inferType(value: unknown): "boolean" | "number" | "array" | "textarea" | "password" | "text" {
   if (typeof value === "boolean") return "boolean";
   if (typeof value === "number") return "number";
@@ -218,6 +258,36 @@ export function SettingsForm({ initialSettings, initialDomains }: SettingsFormPr
     const type = inferType(setting.value);
     const label = KEY_LABELS[setting.key] || setting.key.replace(/_/g, " ");
     const secret = isSecretKey(setting.key);
+    const dropdownOpts = DROPDOWN_OPTIONS[setting.key];
+
+    // Dropdown select for predefined options
+    if (dropdownOpts) {
+      return (
+        <div className="space-y-2">
+          <Label htmlFor={setting.key} className="text-sm font-medium text-slate-800">
+            {label}
+          </Label>
+          {setting.description && (
+            <p className="text-xs text-slate-500">{setting.description}</p>
+          )}
+          <Select
+            value={String(setting.value ?? "")}
+            onValueChange={(val) => val && updateValue(setting.key, val)}
+          >
+            <SelectTrigger className="max-w-[300px] rounded-lg border-slate-200 bg-white">
+              <SelectValue placeholder={`Select ${label.toLowerCase()}`} />
+            </SelectTrigger>
+            <SelectContent>
+              {dropdownOpts.map((opt) => (
+                <SelectItem key={opt.value} value={opt.value}>
+                  {opt.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      );
+    }
 
     if (type === "boolean") {
       return (
