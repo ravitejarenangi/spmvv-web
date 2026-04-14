@@ -27,8 +27,12 @@ export default async function AdminUsersPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Users</h1>
-        <p className="text-muted-foreground">Manage user accounts and roles.</p>
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900 font-[Poppins,sans-serif]">
+          User Management
+        </h1>
+        <p className="text-sm text-slate-500 mt-1">
+          Manage registered users and their roles
+        </p>
       </div>
       <UserTable initialUsers={users} roles={serializedRoles} />
     </div>
