@@ -1,4 +1,3 @@
-import { Navbar } from "@/components/layout/Navbar";
 import { ChatSidebar } from "@/components/chat/ChatSidebar";
 
 export default function ChatLayout({
@@ -7,12 +6,11 @@ export default function ChatLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen flex-col">
-      <Navbar />
-      <div className="flex flex-1 overflow-hidden">
-        <ChatSidebar />
-        <main className="flex flex-1 flex-col overflow-hidden">{children}</main>
-      </div>
+    <div className="flex h-screen overflow-hidden">
+      <ChatSidebar />
+      <main className="flex-1 flex flex-col bg-slate-50 overflow-hidden">
+        {children}
+      </main>
     </div>
   );
 }
