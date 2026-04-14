@@ -48,10 +48,16 @@ const CATEGORY_META: Record<
   string,
   { label: string; icon: typeof Server; description: string; color: string }
 > = {
-  ollama: {
+  ai: {
     label: "Ollama (Local AI)",
     icon: Server,
     description: "Configure the local Ollama server for embeddings and generation",
+    color: "text-green-600 bg-green-50",
+  },
+  ollama: {
+    label: "Provider Selection",
+    icon: Server,
+    description: "Choose the active generation provider",
     color: "text-green-600 bg-green-50",
   },
   zai: {
@@ -72,7 +78,7 @@ const CATEGORY_META: Record<
     description: "Configure chat behavior, streaming, and prompts",
     color: "text-orange-600 bg-orange-50",
   },
-  branding: {
+  site: {
     label: "Branding",
     icon: Palette,
     description: "Customize the application name and content",
@@ -354,7 +360,7 @@ export function SettingsForm({ initialSettings, initialDomains }: SettingsFormPr
 
   return (
     <div className="space-y-6">
-      <Tabs defaultValue={categories[0]} className="space-y-6">
+      <Tabs defaultValue={categories[0]} className="w-full space-y-6" orientation="horizontal">
         {/* Tab navigation */}
         <div className="overflow-x-auto">
           <TabsList className="inline-flex h-auto gap-1 rounded-xl bg-slate-100 p-1">
@@ -390,7 +396,7 @@ export function SettingsForm({ initialSettings, initialDomains }: SettingsFormPr
           const items = grouped[cat];
 
           return (
-            <TabsContent key={cat} value={cat} className="space-y-6 mt-0">
+            <TabsContent key={cat} value={cat} className="w-full space-y-6 mt-0">
               {/* Category header */}
               <div className="flex items-start gap-4 rounded-xl border border-slate-200 bg-white p-5">
                 <div className={`rounded-lg p-2.5 ${meta?.color || "text-slate-600 bg-slate-50"}`}>
@@ -430,7 +436,7 @@ export function SettingsForm({ initialSettings, initialDomains }: SettingsFormPr
         })}
 
         {/* Domains panel */}
-        <TabsContent value="domains" className="space-y-6 mt-0">
+        <TabsContent value="domains" className="w-full space-y-6 mt-0">
           <div className="flex items-start gap-4 rounded-xl border border-slate-200 bg-white p-5">
             <div className="rounded-lg p-2.5 text-emerald-600 bg-emerald-50">
               <Globe className="size-5" />
