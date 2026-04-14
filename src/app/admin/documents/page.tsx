@@ -18,10 +18,17 @@ export default async function AdminDocumentsPage() {
   }));
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Documents</h1>
-        <p className="text-muted-foreground">Upload and manage knowledge base documents.</p>
+        <h1
+          className="text-2xl font-bold tracking-tight text-slate-900"
+          style={{ fontFamily: "Poppins, sans-serif" }}
+        >
+          Document Management
+        </h1>
+        <p className="text-sm text-slate-500 mt-1">
+          Upload, manage, and ingest documents for the knowledge base
+        </p>
       </div>
       <DocumentManager initialDocuments={serialized} />
     </div>
