@@ -6,31 +6,51 @@ import * as path from "path";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const pdfParse = require("pdf-parse");
 
+function splitByWindows(text: string, chunkSize: number, overlap: number): string[] {
+  const out: string[] = [];
+  const step = Math.max(1, chunkSize - overlap);
+  for (let i = 0; i < text.length; i += step) {
+    const piece = text.slice(i, i + chunkSize).trim();
+    if (piece.length > 50) out.push(piece);
+    if (i + chunkSize >= text.length) break;
+  }
+  return out;
+}
+
 export function chunkText(
   text: string,
   chunkSize: number,
   overlap: number
 ): string[] {
-  const sentences = text.split(/(?<=[.!?])\s+/);
+  if (!text) return [];
+
+  // Prefer paragraph/line boundaries; fall back to sentence boundaries.
+  const atoms = text
+    .split(/\n{2,}|\n|(?<=[.!?])\s+/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+
   const chunks: string[] = [];
   let current = "";
 
-  for (const sentence of sentences) {
-    if ((current + " " + sentence).trim().length > chunkSize && current.length > 0) {
-      const chunk = current.trim();
-      if (chunk.length > 50) {
-        chunks.push(chunk);
-      }
-      // Keep overlap: take last `overlap` chars of current as seed for next chunk
-      current = current.length > overlap ? current.slice(-overlap) + " " + sentence : sentence;
+  for (const atom of atoms) {
+    // Atom itself larger than chunk size: flush current, then window-split the atom.
+    if (atom.length > chunkSize) {
+      if (current.trim().length > 50) chunks.push(current.trim());
+      current = "";
+      chunks.push(...splitByWindows(atom, chunkSize, overlap));
+      continue;
+    }
+
+    if ((current + " " + atom).trim().length > chunkSize && current.length > 0) {
+      if (current.trim().length > 50) chunks.push(current.trim());
+      current = current.length > overlap ? current.slice(-overlap) + " " + atom : atom;
     } else {
-      current = current ? current + " " + sentence : sentence;
+      current = current ? current + " " + atom : atom;
     }
   }
 
-  if (current.trim().length > 50) {
-    chunks.push(current.trim());
-  }
+  if (current.trim().length > 50) chunks.push(current.trim());
 
   return chunks;
 }
@@ -52,9 +72,11 @@ export async function ingestDocument(documentId: string): Promise<number> {
   const fileBuffer = fs.readFileSync(resolvedPath);
   const pdfData = await pdfParse(fileBuffer);
 
-  // Clean text
+  // Clean text: preserve line breaks so the chunker has splitting signal
   const cleanedText = pdfData.text
-    .replace(/\s+/g, " ")
+    .replace(/\r\n?/g, "\n")
+    .replace(/[ \t]+/g, " ")
+    .replace(/\n{3,}/g, "\n\n")
     .replace(/[^\x20-\x7E\n]/g, "")
     .trim();
 
