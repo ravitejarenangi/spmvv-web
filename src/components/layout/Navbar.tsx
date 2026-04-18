@@ -6,11 +6,12 @@ import { useState } from "react";
 import { GraduationCap, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 const roleBadgeStyles: Record<string, string> = {
-  admin: "bg-purple-100 text-purple-700 border-purple-200",
-  faculty: "bg-blue-100 text-blue-700 border-blue-200",
-  student: "bg-green-100 text-green-700 border-green-200",
+  admin: "bg-gradient-to-tr from-purple-500/20 to-purple-600/20 text-purple-700 dark:text-purple-300 border-purple-500/30 backdrop-blur-sm",
+  faculty: "bg-gradient-to-tr from-blue-500/20 to-cyan-500/20 text-blue-700 dark:text-blue-300 border-blue-500/30 backdrop-blur-sm",
+  student: "bg-gradient-to-tr from-green-500/20 to-emerald-500/20 text-green-700 dark:text-green-300 border-green-500/30 backdrop-blur-sm",
 };
 
 function RoleBadge({ role }: { role: string }) {
@@ -46,15 +47,17 @@ export function Navbar() {
   });
 
   return (
-    <nav className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
+    <nav className="sticky top-0 z-50 glass-panel rounded-none border-b border-white/20 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link
           href="/"
-          className="flex items-center gap-2 text-primary font-bold text-lg tracking-tight transition-opacity hover:opacity-80"
+          className="flex items-center gap-2 text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent font-bold text-lg tracking-tight transition-all duration-300 hover:scale-[1.02]"
           style={{ fontFamily: "var(--font-heading)" }}
         >
-          <GraduationCap className="h-6 w-6 text-primary" strokeWidth={2.5} />
+          <div className="flex items-center justify-center p-1.5 rounded-lg bg-gradient-to-tr from-primary/20 to-accent/20 border border-white/20 shadow-[0_0_15px_rgba(var(--primary),0.2)]">
+            <GraduationCap className="h-5 w-5 text-primary" strokeWidth={2.5} />
+          </div>
           <span>SPMVV EDUBOT</span>
         </Link>
 
@@ -65,10 +68,10 @@ export function Navbar() {
               key={link.href}
               href={link.href}
               className={cn(
-                "px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200",
+                "px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300",
                 pathname === link.href
-                  ? "text-primary bg-blue-50"
-                  : "text-slate-600 hover:text-primary hover:bg-slate-50"
+                  ? "text-primary bg-white/30 dark:bg-black/30 shadow-sm shadow-primary/10 border border-white/20"
+                  : "text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-white/20 dark:hover:bg-black/20"
               )}
             >
               {link.label}
@@ -78,6 +81,7 @@ export function Navbar() {
 
         {/* Desktop Right Side */}
         <div className="hidden md:flex items-center gap-3">
+          <ThemeToggle />
           {session ? (
             <>
               <span className="text-sm text-slate-600 font-medium">{session.user?.name}</span>
@@ -94,12 +98,12 @@ export function Navbar() {
           ) : (
             <>
               <Link href="/login">
-                <Button variant="ghost" size="sm" className="transition-colors duration-200">
+                <Button variant="ghost" size="sm" className="font-semibold text-slate-700 dark:text-slate-300 hover:bg-white/20 dark:hover:bg-black/20 rounded-xl transition-colors duration-300">
                   Login
                 </Button>
               </Link>
               <Link href="/register">
-                <Button size="sm" className="transition-colors duration-200">
+                <Button size="sm" className="glass-button rounded-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-lg">
                   Register
                 </Button>
               </Link>
@@ -107,29 +111,32 @@ export function Navbar() {
           )}
         </div>
 
-        {/* Mobile Hamburger */}
-        <button
-          className="md:hidden p-2 rounded-md text-slate-600 hover:text-primary hover:bg-slate-50 transition-colors duration-200"
-          onClick={() => setMobileOpen((prev) => !prev)}
-          aria-label="Toggle navigation menu"
-        >
-          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        {/* Mobile Toggle & Hamburger */}
+        <div className="md:hidden flex items-center gap-2">
+          <ThemeToggle />
+          <button
+            className="p-2 rounded-md text-slate-600 hover:text-primary hover:bg-slate-50 transition-colors duration-200"
+            onClick={() => setMobileOpen((prev) => !prev)}
+            aria-label="Toggle navigation menu"
+          >
+            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="md:hidden border-t border-slate-200 bg-white px-4 py-3 space-y-1">
+        <div className="md:hidden border-t border-white/20 bg-white/30 dark:bg-black/30 backdrop-blur-xl px-4 py-3 space-y-1 shadow-lg">
           {visibleLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setMobileOpen(false)}
               className={cn(
-                "block px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200",
+                "block px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-300",
                 pathname === link.href
-                  ? "text-primary bg-blue-50"
-                  : "text-slate-600 hover:text-primary hover:bg-slate-50"
+                  ? "text-primary bg-white/40 dark:bg-black/40 border border-white/20"
+                  : "text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-white/20 dark:hover:bg-black/20"
               )}
             >
               {link.label}

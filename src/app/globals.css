@@ -21,48 +21,57 @@
 @layer base {
   :root {
     --font-heading: 'Poppins', sans-serif;
-    --background: 210 40% 98%;
-    --foreground: 215 28% 17%;
+    /* Soft colorful backgrounds */
+    --background: 210 50% 95%;
+    --foreground: 220 30% 15%;
     --card: 0 0% 100%;
-    --card-foreground: 215 28% 17%;
+    --card-foreground: 220 30% 15%;
     --popover: 0 0% 100%;
-    --popover-foreground: 215 28% 17%;
-    --primary: 221 83% 53%;
+    --popover-foreground: 220 30% 15%;
+    
+    /* Vibrant primary/secondary */
+    --primary: 230 100% 65%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 215 28% 17%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
-    --accent: 25 95% 53%;
+    --secondary: 270 80% 65%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 210 30% 90%;
+    --muted-foreground: 215 20% 45%;
+    --accent: 300 80% 60%;
     --accent-foreground: 0 0% 100%;
-    --destructive: 0 72% 51%;
+    --destructive: 350 80% 55%;
     --destructive-foreground: 0 0% 100%;
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 221 83% 53%;
-    --radius: 0.5rem;
+    
+    /* Subtle borders for glassmorphism */
+    --border: 215 30% 85%;
+    --input: 215 30% 85%;
+    --ring: 230 100% 65%;
+    --radius: 1rem;
   }
 
   .dark {
-    --background: 215 28% 9%;
+    /* Deep space abstract background */
+    --background: 230 40% 6%;
     --foreground: 210 40% 98%;
-    --card: 215 28% 13%;
+    --card: 230 30% 10%;
     --card-foreground: 210 40% 98%;
-    --popover: 215 28% 13%;
+    --popover: 230 30% 10%;
     --popover-foreground: 210 40% 98%;
-    --primary: 221 83% 53%;
+    
+    --primary: 230 100% 70%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 215 28% 18%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 215 28% 18%;
-    --muted-foreground: 215 16% 64%;
-    --accent: 25 95% 53%;
+    --secondary: 270 80% 70%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 220 30% 15%;
+    --muted-foreground: 215 16% 65%;
+    --accent: 300 80% 65%;
     --accent-foreground: 0 0% 100%;
-    --destructive: 0 62% 50%;
+    --destructive: 350 70% 50%;
     --destructive-foreground: 0 0% 98%;
-    --border: 215 28% 18%;
-    --input: 215 28% 18%;
-    --ring: 221 83% 53%;
+    
+    /* Dark glass borders */
+    --border: 220 30% 20%;
+    --input: 220 30% 20%;
+    --ring: 230 100% 70%;
   }
 
   * {
@@ -77,5 +86,20 @@
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
     @apply font-semibold tracking-tight;
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    @apply bg-white/30 dark:bg-black/30 backdrop-blur-xl border border-white/40 dark:border-white/10 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.4)];
+  }
+  .glass-card {
+    @apply bg-white/20 dark:bg-black/20 backdrop-blur-md border border-white/30 dark:border-white/5 shadow-lg;
+  }
+  .glass-button {
+    @apply bg-gradient-to-r from-primary/80 to-secondary/80 hover:from-primary hover:to-secondary text-white backdrop-blur-md border border-white/20 shadow-md transition-all duration-300;
+  }
+  .glass-input {
+    @apply bg-white/40 dark:bg-black/40 backdrop-blur-sm border border-white/50 dark:border-white/10 focus:bg-white/60 dark:focus:bg-black/60 transition-all duration-300;
   }
 }

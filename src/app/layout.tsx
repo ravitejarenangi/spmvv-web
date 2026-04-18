@@ -22,18 +22,22 @@ export const metadata: Metadata = {
   description: "SPMVV College Query Assistant",
 };
 
+import { ThemeProvider } from "@/components/ThemeProvider";
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={cn("font-sans antialiased", inter.variable, poppins.variable)}>
+    <html lang="en" suppressHydrationWarning className={cn("font-sans antialiased", inter.variable, poppins.variable)}>
       <body className="min-h-screen bg-background">
-        <AuthProvider>
-          {children}
-          <Toaster position="top-right" />
-        </AuthProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <AuthProvider>
+            {children}
+            <Toaster position="top-right" />
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

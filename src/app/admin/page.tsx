@@ -30,29 +30,29 @@ export default async function AdminDashboardPage() {
       label: "Total Users",
       value: users,
       icon: Users,
-      iconBg: "bg-blue-50",
-      iconColor: "text-blue-600",
+      iconBg: "bg-blue-500/20 backdrop-blur-md border border-blue-500/30 shadow-[0_0_10px_rgba(59,130,246,0.3)]",
+      iconColor: "text-blue-600 dark:text-blue-400 font-bold",
     },
     {
       label: "Chat Sessions",
       value: sessions,
       icon: MessageSquare,
-      iconBg: "bg-orange-50",
-      iconColor: "text-orange-600",
+      iconBg: "bg-orange-500/20 backdrop-blur-md border border-orange-500/30 shadow-[0_0_10px_rgba(249,115,22,0.3)]",
+      iconColor: "text-orange-600 dark:text-orange-400 font-bold",
     },
     {
       label: "Documents",
       value: documents,
       icon: FileText,
-      iconBg: "bg-green-50",
-      iconColor: "text-green-600",
+      iconBg: "bg-green-500/20 backdrop-blur-md border border-green-500/30 shadow-[0_0_10px_rgba(34,197,94,0.3)]",
+      iconColor: "text-green-600 dark:text-green-400 font-bold",
     },
     {
       label: "Total Chunks",
       value: chunks,
       icon: Database,
-      iconBg: "bg-purple-50",
-      iconColor: "text-purple-600",
+      iconBg: "bg-purple-500/20 backdrop-blur-md border border-purple-500/30 shadow-[0_0_10px_rgba(168,85,247,0.3)]",
+      iconColor: "text-purple-600 dark:text-purple-400 font-bold",
     },
   ];
 
@@ -82,12 +82,12 @@ export default async function AdminDashboardPage() {
       {/* Header */}
       <div>
         <h1
-          className="text-2xl font-bold text-slate-900"
-          style={{ fontFamily: "var(--font-poppins, Poppins, sans-serif)" }}
+          className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent"
+          style={{ fontFamily: "var(--font-heading)" }}
         >
           Dashboard
         </h1>
-        <p className="mt-1 text-sm text-slate-500">Overview of your application</p>
+        <p className="mt-1 text-sm font-medium text-slate-600 dark:text-slate-400">Overview of your application</p>
       </div>
 
       {/* Stats Grid */}
@@ -95,12 +95,12 @@ export default async function AdminDashboardPage() {
         {statCards.map(({ label, value, icon: Icon, iconBg, iconColor }) => (
           <div
             key={label}
-            className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition-shadow duration-200"
+            className="glass-card rounded-2xl p-6 hover:shadow-[0_0_20px_rgba(var(--primary),0.2)] transition-all duration-300 hover:-translate-y-1"
           >
             <div className="flex items-start justify-between">
               <div>
-                <p className="text-sm font-medium text-slate-500">{label}</p>
-                <p className="mt-2 text-3xl font-bold text-slate-900">{value}</p>
+                <p className="text-sm font-semibold text-slate-600 dark:text-slate-400">{label}</p>
+                <p className="mt-2 text-4xl font-bold text-slate-800 dark:text-slate-100">{value}</p>
               </div>
               <div className={`flex items-center justify-center w-10 h-10 rounded-full ${iconBg}`}>
                 <Icon className={`size-5 ${iconColor}`} />
@@ -113,10 +113,10 @@ export default async function AdminDashboardPage() {
       {/* Service Health */}
       <div>
         <div className="flex items-center gap-2 mb-4">
-          <Activity className="size-5 text-slate-700" />
+          <Activity className="size-5 text-primary" />
           <h2
-            className="text-base font-semibold text-slate-900"
-            style={{ fontFamily: "var(--font-poppins, Poppins, sans-serif)" }}
+            className="text-lg font-bold text-slate-800 dark:text-slate-200"
+            style={{ fontFamily: "var(--font-heading)" }}
           >
             Service Health
           </h2>
@@ -125,18 +125,18 @@ export default async function AdminDashboardPage() {
           {healthCards.map(({ label, connected }) => (
             <div
               key={label}
-              className="bg-white rounded-xl border border-slate-200 flex items-center gap-3 p-4"
+              className="glass-card rounded-xl flex items-center gap-3 p-4 transition-all duration-300 hover:bg-white/30 dark:hover:bg-black/30"
             >
               <span
-                className={`h-3 w-3 rounded-full shrink-0 ${
+                className={`h-3 w-3 rounded-full shrink-0 shadow-sm ${
                   connected
-                    ? "bg-green-500 animate-pulse"
-                    : "bg-red-500"
+                    ? "bg-green-500 animate-pulse shadow-green-500/50"
+                    : "bg-red-500 shadow-red-500/50"
                 }`}
               />
               <div>
-                <p className="text-sm font-medium text-slate-900">{label}</p>
-                <p className={`text-xs ${connected ? "text-green-600" : "text-red-500"}`}>
+                <p className="text-sm font-bold text-slate-800 dark:text-slate-200">{label}</p>
+                <p className={`text-xs font-semibold ${connected ? "text-green-600 dark:text-green-400" : "text-red-500 dark:text-red-400"}`}>
                   {connected ? "Connected" : "Disconnected"}
                 </p>
               </div>
@@ -148,10 +148,10 @@ export default async function AdminDashboardPage() {
       {/* Quick Actions */}
       <div>
         <div className="flex items-center gap-2 mb-4">
-          <LayoutDashboard className="size-5 text-slate-700" />
+          <LayoutDashboard className="size-5 text-primary" />
           <h2
-            className="text-base font-semibold text-slate-900"
-            style={{ fontFamily: "var(--font-poppins, Poppins, sans-serif)" }}
+            className="text-lg font-bold text-slate-800 dark:text-slate-200"
+            style={{ fontFamily: "var(--font-heading)" }}
           >
             Quick Actions
           </h2>
@@ -161,7 +161,7 @@ export default async function AdminDashboardPage() {
             <Link
               key={href}
               href={href}
-              className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-blue-50 hover:border-blue-200 hover:text-blue-700 transition-all duration-200"
+              className="flex items-center gap-2 rounded-xl glass-card px-4 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:text-primary dark:hover:text-primary transition-all duration-300 hover:scale-[1.03] active:scale-[0.97]"
             >
               <Icon className="size-4" />
               {label}

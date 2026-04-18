@@ -1,5 +1,8 @@
+"use client";
+import { useEffect } from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { ThreeBackground } from "@/components/ui/ThreeBackground";
 import {
   Search,
   FileText,
@@ -9,35 +12,42 @@ import {
   GraduationCap,
 } from "lucide-react";
 
-export const metadata = {
-  title: "About — SPMVV EDUBOT",
-};
-
 export default function AboutPage() {
-  return (
-    <div className="flex min-h-screen flex-col bg-slate-50">
-      <Navbar />
+  useEffect(() => {
+    import("animejs").then((module) => {
+      const anime = (module as any).default || module;
+      anime({
+        targets: '.about-animate',
+        translateY: [40, 0],
+        opacity: [0, 1],
+        delay: anime.stagger(150),
+        duration: 800,
+        easing: 'easeOutExpo'
+      });
+    });
+  }, []);
 
-      <main className="flex-1">
+  return (
+    <div className="relative flex min-h-screen flex-col bg-transparent overflow-hidden">
+      <ThreeBackground />
+      <div className="relative z-10 block">
+        <Navbar />
+      </div>
+
+      <main className="relative z-10 flex-1">
         {/* Hero */}
-        <section
-          className="py-20 text-center"
-          style={{
-            background:
-              "radial-gradient(ellipse at 60% 40%, #eff6ff 0%, #f8fafc 70%)",
-          }}
-        >
+        <section className="py-28 pt-32 text-center">
           <div className="container mx-auto max-w-4xl px-4">
             <h1
-              className="text-4xl font-bold text-slate-800 sm:text-5xl"
+              className="about-animate text-5xl font-bold tracking-tight text-slate-800 dark:text-white sm:text-6xl drop-shadow-md"
               style={{ fontFamily: "var(--font-heading, Poppins, sans-serif)" }}
             >
               About{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent filter drop-shadow-lg">
                 SPMVV EDUBOT
               </span>
             </h1>
-            <p className="mx-auto mt-5 max-w-2xl text-lg text-slate-500">
+            <p className="about-animate mx-auto mt-6 max-w-2xl text-lg text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
               An offline AI-powered assistant built to help students and faculty
               at Sri Padmavati Mahila Visvavidyalayam find information
               instantly — no internet required.
@@ -48,23 +58,24 @@ export default function AboutPage() {
         {/* What is this project */}
         <section className="py-16">
           <div className="container mx-auto max-w-4xl px-4">
-            <div className="rounded-xl border-l-4 border-blue-600 bg-white p-8 shadow-sm">
+            <div className="about-animate glass-panel rounded-2xl border-l-[6px] border-l-primary p-10 shadow-lg relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent dark:from-white/5 pointer-events-none" />
               <h2
-                className="text-2xl font-bold text-slate-800"
+                className="text-3xl font-bold text-slate-800 dark:text-slate-100 relative z-10"
                 style={{
                   fontFamily: "var(--font-heading, Poppins, sans-serif)",
                 }}
               >
                 What is this project?
               </h2>
-              <p className="mt-4 leading-relaxed text-slate-500">
+              <p className="mt-6 text-base leading-relaxed text-slate-700 dark:text-slate-300 font-medium relative z-10">
                 SPMVV EDUBOT is an offline AI-powered assistant built for Sri
                 Padmavati Mahila Visvavidyalayam. It helps students and faculty
                 quickly find information about college departments, courses,
                 timetables, events, and administrative resources — without
                 needing an internet connection.
               </p>
-              <p className="mt-3 leading-relaxed text-slate-500">
+              <p className="mt-4 text-base leading-relaxed text-slate-700 dark:text-slate-300 font-medium relative z-10">
                 The system leverages Retrieval Augmented Generation (RAG) to
                 search over college documents and generate accurate,
                 context-grounded answers using a locally running Mistral LLM
@@ -75,15 +86,16 @@ export default function AboutPage() {
         </section>
 
         {/* Key Features */}
-        <section className="bg-white py-16">
-          <div className="container mx-auto max-w-4xl px-4">
+        <section className="py-24 relative overflow-hidden">
+          <div className="absolute inset-0 bg-white/10 dark:bg-black/10 backdrop-blur-md border-y border-white/10 -z-10" />
+          <div className="container mx-auto max-w-5xl px-4 z-10 relative">
             <h2
-              className="text-2xl font-bold text-slate-800"
+              className="about-animate text-3xl font-bold text-slate-800 dark:text-white drop-shadow-sm text-center"
               style={{ fontFamily: "var(--font-heading, Poppins, sans-serif)" }}
             >
               Key Features
             </h2>
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            <div className="mt-12 grid gap-6 sm:grid-cols-2">
               {[
                 {
                   icon: Search,
@@ -118,21 +130,21 @@ export default function AboutPage() {
               ].map(({ icon: Icon, title, desc }) => (
                 <div
                   key={title}
-                  className="flex gap-4 rounded-xl bg-slate-50 p-5 transition-all duration-200 hover:shadow-sm"
+                  className="about-animate flex gap-5 glass-card rounded-2xl p-6 transition-all duration-300 hover:shadow-[0_0_20px_rgba(var(--primary),0.2)] hover:-translate-y-1"
                 >
-                  <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-100">
-                    <Icon className="h-5 w-5 text-blue-600" />
+                  <div className="mt-1 flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-gradient-to-tr from-primary/20 to-accent/20 border border-white/20 shadow-inner">
+                    <Icon className="h-6 w-6 text-primary" />
                   </div>
                   <div>
                     <h3
-                      className="font-bold text-slate-800"
+                      className="text-lg font-bold text-slate-800 dark:text-slate-100"
                       style={{
                         fontFamily: "var(--font-heading, Poppins, sans-serif)",
                       }}
                     >
                       {title}
                     </h3>
-                    <p className="mt-1 text-sm text-slate-500">{desc}</p>
+                    <p className="mt-2 text-sm text-slate-600 dark:text-slate-400 font-medium leading-relaxed">{desc}</p>
                   </div>
                 </div>
               ))}
@@ -141,15 +153,16 @@ export default function AboutPage() {
         </section>
 
         {/* How it Works */}
-        <section className="py-16">
+        <section className="py-24">
           <div className="container mx-auto max-w-4xl px-4">
             <h2
-              className="text-2xl font-bold text-slate-800"
+              className="about-animate text-3xl font-bold text-slate-800 dark:text-white drop-shadow-sm text-center"
               style={{ fontFamily: "var(--font-heading, Poppins, sans-serif)" }}
             >
               How it Works
             </h2>
-            <div className="mt-8 space-y-0">
+            <div className="mt-16 space-y-0 relative">
+              <div className="absolute left-[1.15rem] top-8 bottom-8 w-[2px] bg-gradient-to-b from-primary/30 to-accent/30 hidden md:block" />
               {[
                 {
                   step: "01",
@@ -173,7 +186,7 @@ export default function AboutPage() {
                   desc: (
                     <>
                       Otherwise, the query is embedded using{" "}
-                      <span className="font-medium text-slate-700">
+                      <span className="font-bold text-primary">
                         nomic-embed-text
                       </span>{" "}
                       and the most relevant chunks are retrieved from the FAISS
@@ -192,7 +205,7 @@ export default function AboutPage() {
                   desc: (
                     <>
                       The final context is passed to{" "}
-                      <span className="font-medium text-slate-700">
+                      <span className="font-bold text-primary">
                         Mistral
                       </span>{" "}
                       running locally via Ollama to generate a grounded,
@@ -201,27 +214,24 @@ export default function AboutPage() {
                   ),
                 },
               ].map(({ step, title, desc }, i, arr) => (
-                <div key={step} className="flex gap-6">
+                <div key={step} className="about-animate flex flex-col md:flex-row gap-6 relative z-10">
                   {/* Timeline spine */}
                   <div className="flex flex-col items-center">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-accent text-sm font-bold text-white shadow-[0_0_15px_rgba(var(--primary),0.3)]">
                       {step}
                     </div>
-                    {i < arr.length - 1 && (
-                      <div className="mt-1 w-px flex-1 border-l-2 border-dashed border-blue-200" />
-                    )}
                   </div>
                   {/* Content */}
-                  <div className={i < arr.length - 1 ? "pb-8" : "pb-0"}>
+                  <div className={i < arr.length - 1 ? "pb-12 pt-2" : "pb-0 pt-2"}>
                     <h3
-                      className="pt-1.5 font-bold text-slate-800"
+                      className="text-xl font-bold text-slate-800 dark:text-slate-100"
                       style={{
                         fontFamily: "var(--font-heading, Poppins, sans-serif)",
                       }}
                     >
                       {title}
                     </h3>
-                    <p className="mt-1 text-sm leading-relaxed text-slate-500">
+                    <p className="mt-3 text-base leading-relaxed text-slate-600 dark:text-slate-400 font-medium">
                       {desc}
                     </p>
                   </div>
@@ -232,7 +242,9 @@ export default function AboutPage() {
         </section>
       </main>
 
-      <Footer />
+      <div className="relative z-10 block">
+        <Footer />
+      </div>
     </div>
   );
 }

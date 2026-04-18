@@ -51,6 +51,22 @@ export function ChatSidebar() {
     fetchSessions();
   }, [pathname]);
 
+  useEffect(() => {
+    if (sessions.length > 0) {
+      import("animejs").then((module) => {
+        const anime = (module as any).default || module;
+        anime({
+          targets: '.sidebar-item',
+          translateX: [-20, 0],
+          opacity: [0, 1],
+          delay: anime.stagger(50),
+          duration: 500,
+          easing: 'easeOutQuad'
+        });
+      });
+    }
+  }, [sessions.length]);
+
   async function handleDelete(e: React.MouseEvent, id: string) {
     e.preventDefault();
     e.stopPropagation();
@@ -90,11 +106,11 @@ export function ChatSidebar() {
     : null;
 
   return (
-    <aside className="w-72 flex-shrink-0 border-r border-slate-200 bg-white flex flex-col overflow-hidden">
+    <aside className="w-72 flex-shrink-0 border-r border-white/20 bg-white/20 dark:bg-black/20 backdrop-blur-md flex flex-col overflow-hidden">
       {/* Header */}
       <div className="px-4 pt-5 pb-4">
         <div className="flex items-center gap-2 mb-4">
-          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-600 shadow-sm">
+          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-tr from-primary to-accent shadow-lg border border-white/30 backdrop-blur-md">
             <GraduationCap className="size-4 text-white" strokeWidth={2.5} />
           </div>
           <div>
@@ -111,7 +127,7 @@ export function ChatSidebar() {
         {/* New Chat button */}
         <Link
           href="/chat"
-          className="flex items-center justify-center gap-2 w-full h-11 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium shadow-sm transition-all duration-200 hover:shadow-md hover:scale-[1.01] active:scale-[0.99]"
+          className="flex items-center justify-center gap-2 w-full h-11 rounded-xl glass-button text-sm font-bold shadow-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
         >
           <Plus className="size-4" />
           New Chat
@@ -133,21 +149,21 @@ export function ChatSidebar() {
               return (
                 <li
                   key={session.id}
-                  className="animate-in fade-in slide-in-from-left-2 duration-300"
+                  className="sidebar-item opacity-0"
                 >
                   <Link
                     href={`/chat/${session.id}`}
                     className={cn(
-                      "group flex items-start gap-2.5 p-3 rounded-xl text-sm transition-all duration-200 cursor-pointer",
+                      "group flex items-start gap-2.5 p-3 rounded-xl text-sm transition-all duration-300 cursor-pointer backdrop-blur-sm border",
                       isActive
-                        ? "bg-blue-50 border border-blue-200 shadow-sm text-blue-700"
-                        : "text-slate-600 hover:bg-slate-100 border border-transparent"
+                        ? "bg-white/40 dark:bg-black/40 border-primary/50 shadow-md text-primary dark:text-primary-foreground"
+                        : "text-slate-700 dark:text-slate-300 hover:bg-white/30 dark:hover:bg-black/30 border-transparent hover:border-white/20"
                     )}
                   >
                     <MessageSquare
                       className={cn(
-                        "size-4 mt-0.5 flex-shrink-0",
-                        isActive ? "text-blue-600" : "text-slate-400"
+                        "size-4 mt-0.5 flex-shrink-0 transition-colors duration-300",
+                        isActive ? "text-primary" : "text-slate-500"
                       )}
                     />
                     <div className="flex-1 min-w-0">
@@ -176,8 +192,8 @@ export function ChatSidebar() {
       {/* Bottom user info */}
       {session?.user && (
         <div className="px-3 py-3 border-t border-slate-200">
-          <div className="flex items-center gap-3 px-2 py-2 rounded-xl hover:bg-slate-50 transition-colors duration-200">
-            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-semibold">
+          <div className="flex items-center gap-3 px-2 py-2 rounded-xl hover:bg-white/20 dark:hover:bg-black/20 backdrop-blur-sm transition-all duration-300 border border-transparent hover:border-white/20">
+            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-tr from-primary to-accent flex items-center justify-center text-white text-xs font-bold shadow-md">
               {initials}
             </div>
             <div className="flex-1 min-w-0">

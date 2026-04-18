@@ -124,7 +124,7 @@ export function RoleEditor({ initialRoles }: RoleEditorProps) {
         return (
           <div
             key={role.id}
-            className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden"
+            className="glass-panel rounded-xl shadow-sm overflow-hidden"
           >
             {/* Card header */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100">

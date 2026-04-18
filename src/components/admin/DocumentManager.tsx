@@ -128,7 +128,7 @@ export function DocumentManager({ initialDocuments }: DocumentManagerProps) {
 
   function DocumentTable({ docs }: { docs: Document[] }) {
     return (
-      <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
+      <div className="glass-panel rounded-xl overflow-hidden">
         <Table>
           <TableHeader>
             <TableRow className="bg-slate-50 hover:bg-slate-50">
@@ -233,7 +233,7 @@ export function DocumentManager({ initialDocuments }: DocumentManagerProps) {
   return (
     <div className="space-y-6">
       {/* Upload Section */}
-      <div className="rounded-xl border border-slate-200 bg-white shadow-sm p-6">
+      <div className="glass-panel rounded-xl shadow-sm p-6">
         <div className="flex items-center gap-2 mb-5">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600">
             <Upload className="size-4 text-white" />

@@ -46,8 +46,8 @@ export function ChatInput({ onSend, disabled }: ChatInputProps) {
   return (
     <div
       className={cn(
-        "relative rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-200",
-        "focus-within:border-blue-400 focus-within:shadow-md focus-within:ring-4 focus-within:ring-blue-500/10"
+        "relative rounded-2xl glass-panel transition-all duration-300",
+        "focus-within:border-primary focus-within:shadow-[0_0_15px_rgba(var(--primary),0.3)] focus-within:ring-2 focus-within:ring-primary/20"
       )}
     >
       <textarea
@@ -58,14 +58,14 @@ export function ChatInput({ onSend, disabled }: ChatInputProps) {
         placeholder="Ask about courses, fees, question papers..."
         rows={1}
         disabled={disabled}
-        className="w-full resize-none border-none bg-transparent px-4 py-3 pr-14 text-sm outline-none placeholder:text-slate-400 disabled:opacity-50 min-h-[48px] max-h-[160px] leading-6"
+        className="w-full resize-none border-none bg-transparent px-4 py-3 pr-14 text-sm outline-none placeholder:text-slate-500 dark:placeholder:text-slate-400 disabled:opacity-50 min-h-[48px] max-h-[160px] leading-6 text-slate-800 dark:text-slate-100"
       />
       <button
         onClick={submit}
         disabled={isEmpty || disabled}
         className={cn(
-          "absolute bottom-2 right-2 flex h-9 w-9 items-center justify-center rounded-xl bg-blue-600 text-white transition-all duration-200 hover:bg-blue-700 active:scale-95",
-          isEmpty || disabled ? "scale-75 opacity-40 cursor-not-allowed" : "scale-100 opacity-100"
+          "absolute bottom-2 right-2 flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-primary to-accent text-white transition-all duration-300 hover:shadow-lg active:scale-95",
+          isEmpty || disabled ? "scale-75 opacity-40 cursor-not-allowed grayscale" : "scale-100 opacity-100 shadow-[0_4px_10px_rgba(var(--primary),0.4)]"
         )}
         title="Send message"
       >
