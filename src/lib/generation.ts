@@ -96,6 +96,7 @@ async function generateZai(prompt: string): Promise<string> {
       model,
       messages: [{ role: "user", content: prompt }],
       stream: false,
+      thinking: { type: "disabled" },
     }),
   });
 
@@ -123,6 +124,7 @@ async function* generateStreamZai(prompt: string): AsyncGenerator<string> {
       model,
       messages: [{ role: "user", content: prompt }],
       stream: true,
+      thinking: { type: "disabled" },
     }),
   });
 
